@@ -5,7 +5,13 @@ class Product(models.Model):
     name = models.CharField(max_length=150)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     company = models.CharField(max_length=150)
+    category = models.CharField(max_length=150, default='home')
+    shipping = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False)
     description = models.TextField(max_length=250)
+    countInStock = models.IntegerField(default=0)
+    stars = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
+    reviews = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
