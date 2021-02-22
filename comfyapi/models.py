@@ -1,18 +1,10 @@
 from django.db import models
 
 
-class Company(models.Model):
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 class Product(models.Model):
     name = models.CharField(max_length=150)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    company = models.ForeignKey(
-        Company, on_delete=models.CASCADE)
+    company = models.CharField(max_length=150)
     description = models.TextField(max_length=250)
 
     def __str__(self):
@@ -26,7 +18,7 @@ class Image(models.Model):
     image = models.URLField()
 
     def __str__(self):
-        return f"{self.name} {self.image}"
+        return f"{self.name}"
 
 
 class Color(models.Model):
