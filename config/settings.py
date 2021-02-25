@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'comfyapi',
     # third party
     'rest_framework',
-     'corsheaders',
+    'corsheaders',
+    'drf_yasg', 
 ]
 
 MIDDLEWARE = [
