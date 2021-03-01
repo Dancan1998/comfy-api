@@ -42,7 +42,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'tokens']
+        fields = ['email', 'password', 'first_name', 'last_name','tokens']
         read_only_fields = ['first_name', 'last_name', 'tokens']
 
     def validate(self, attrs):
@@ -56,6 +56,10 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed('Invalid credentials, try again')
         if not user.is_active:
             raise AuthenticationFailed('Account inactive, contact admin')
+        if not user.email:
+            raise AuthenticationFailed({'email':'Wrong email address'})
+        if not user.password:
+            raise AuthenticationFailed({'password':'Wrong password'})
 
         return {
             'email': user.email,
