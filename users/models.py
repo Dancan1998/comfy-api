@@ -26,6 +26,7 @@ class CustomUser(AbstractUser):
                                        help_text=_('Designates that this user has all permissions without explicitly assigning them.'))
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
+   
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
