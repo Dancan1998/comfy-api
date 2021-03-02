@@ -1,1 +1,1 @@
-default_app_config = 'comfyapi.apps.ComfyapiConfig'
+# default_app_config = 'comfyapi.apps.ComfyapiConfig'

@@ -17,7 +17,7 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class ShippingProfileView(generics.ListCreateAPIView):
+class ShippingProfileView(generics.GenericAPIView):
     serializer_class = ShippingProfileSerializer
     permission_classes = [IsAuthenticated]
 
@@ -25,9 +25,12 @@ class ShippingProfileView(generics.ListCreateAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.errors
-        serializer.save(user=self.request.user)
+        serializer.save(owner=self.request.user)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def get_queryset(self):
+        return ShippingProfile.objects.filter(owner=self.request.user)
 
     # def get_queryset(self):
     #     return ShippingProfile.objects.filter(user=self.request.user)

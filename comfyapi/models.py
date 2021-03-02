@@ -39,7 +39,7 @@ class Color(models.Model):
 
 
 class ShippingProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
     county = models.CharField(max_length=150)
     town = models.CharField(max_length=150)
     phone_no = models.IntegerField(null=True, blank=True)
@@ -48,4 +48,4 @@ class ShippingProfile(models.Model):
         verbose_name_plural = 'ShippingProfiles'
 
     def __str__(self):
-        return f'{self.user.email}'
+        return f'{self.owner.email}'

@@ -18,17 +18,16 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ShippingProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ShippingProfile
         fields = '__all__'
-        read_only_fields = ['user']
+        read_only_fields = ['owner']
 
-    # def validate(self, attrs):
-    #     county = attrs.get('county', '')
-    #     town = attrs.get('town', '')
-    #     phone_no = attrs.get('phone', '')
-    #     return attrs
+    def validate(self, attrs):
+        county = attrs.get('county', '')
+        town = attrs.get('town', '')
+        phone_no = attrs.get('phone', '')
+        return attrs
 
-    # def create(self, validated_data):
-    #     return ShippingProfile.objects.create(**validated_data)
+    def create(self, validated_data):
+        return ShippingProfile.objects.create(**validated_data)
