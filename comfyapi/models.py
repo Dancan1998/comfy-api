@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class Product(models.Model):
@@ -34,3 +36,16 @@ class Color(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ShippingProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    county = models.CharField(max_length=150)
+    town = models.CharField(max_length=150)
+    phone_no = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'ShippingProfiles'
+
+    def __str__(self):
+        return f'{self.user.email}'

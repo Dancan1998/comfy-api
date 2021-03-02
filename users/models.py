@@ -43,3 +43,4 @@ class CustomUser(AbstractUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+        

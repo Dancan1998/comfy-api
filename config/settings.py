@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # third party
     'rest_framework',
     'corsheaders',
-    'drf_yasg', 
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -148,14 +148,11 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-   'SECURITY_DEFINITIONS': {
-      'Basic': {
-            'type': 'basic'
-      },
-      'Bearer': {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
             'type': 'apiKey',
             'name': 'Authorization',
             'in': 'header'
-      }
-   }
+        }
+    }
 }
