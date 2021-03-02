@@ -17,7 +17,7 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class ShippingProfileView(generics.GenericAPIView):
+class ShippingProfileView(generics.ListCreateAPIView):
     serializer_class = ShippingProfileSerializer
     permission_classes = [IsAuthenticated]
 
@@ -34,3 +34,11 @@ class ShippingProfileView(generics.GenericAPIView):
 
     # def get_queryset(self):
     #     return ShippingProfile.objects.filter(user=self.request.user)
+
+
+class ShippingProfileDetailView(generics.RetrieveUpdateAPIView):
+    serializer_class = ShippingProfileSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        return ShippingProfile.objects.filter(owner=self.request.user)

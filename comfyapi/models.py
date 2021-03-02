@@ -42,7 +42,7 @@ class ShippingProfile(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     county = models.CharField(max_length=150)
     town = models.CharField(max_length=150)
-    phone_no = models.IntegerField(null=True, blank=True)
+    contact = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     class Meta:
         verbose_name_plural = 'ShippingProfiles'

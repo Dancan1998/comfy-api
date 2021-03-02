@@ -18,6 +18,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ShippingProfileSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ShippingProfile
         fields = '__all__'
@@ -26,7 +27,12 @@ class ShippingProfileSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         county = attrs.get('county', '')
         town = attrs.get('town', '')
-        phone_no = attrs.get('phone', '')
+        contact = attrs.get('contact', '')
+        if county == "":
+            raise serializers.ValidationError(
+                {'county': 'County cannot be null'})
+        if town == "":
+            raise serializers.ValidationError({'town': "Town can not be null"})
         return attrs
 
     def create(self, validated_data):
