@@ -24,16 +24,15 @@ class ShippingProfileView(generics.ListCreateAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.errors
-        serializer.save(owner=self.request.user)
+        if not ShippingProfile.objects.filter(owner=self.request.user).exists():
+            serializer.save(owner=self.request.user)
+        else:
+            return Response({'message': 'User already has shipping profile'}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
         return ShippingProfile.objects.filter(owner=self.request.user)
-
-    # def get_queryset(self):
-    #     return ShippingProfile.objects.filter(user=self.request.user)
 
 
 class ShippingProfileDetailView(generics.RetrieveUpdateAPIView):
