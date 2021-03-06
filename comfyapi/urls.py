@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import ProductListView, ProductDetailView, ShippingProfileView, ShippingProfileDetailView
+from .views import (
+    ProductListView,
+    ProductDetailView,
+    ShippingProfileView,
+    ShippingProfileDetailView,
+    OrderView
+)
 app_name = 'comfyapi'
 
 urlpatterns = [
@@ -8,4 +14,5 @@ urlpatterns = [
     path('shipping', ShippingProfileView.as_view(), name='shipping'),
     path('shipping/<int:pk>', ShippingProfileDetailView.as_view(),
          name='shipping-detail'),
+    path('order', OrderView.as_view(), name='order')
 ]

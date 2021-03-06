@@ -51,26 +51,31 @@ class ShippingProfile(models.Model):
         return f'{self.owner.email}'
 
 
+class Order(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_amount = models.IntegerField()
+    total_items = models.IntegerField()
+    shipping_cost = models.IntegerField()
+    order_totals = models.IntegerField()
+    shippingprofile = models.ForeignKey(
+        ShippingProfile, related_name='shipping_profile', on_delete=models.SET_NULL, null=True)
+    paidAt = models.DateTimeField(auto_now=True)
+    isPaid = models.BooleanField(default=False)
+    deliveredAt = models.DateTimeField(auto_now=True)
+    idDelivered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.owner.email}"
+
+
 class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order, related_name='order', on_delete=models.SET_NULL, null=True)
     identifier = models.CharField(max_length=100)
     name = models.CharField(max_length=150)
     amount = models.IntegerField()
     color = models.CharField(max_length=10)
     image = models.URLField()
 
-
-class Order(models.Model):
-    owner = models.ForeignKey(
-        User, related_name='users_orders', on_delete=models.CASCADE)
-    orderItem = models.ForeignKey(
-        OrderItem, related_name='order_item', on_delete=models.CASCADE)
-    total_amount = models.IntegerField()
-    total_items = models.IntegerField()
-    shipping_cost = models.IntegerField()
-    order_totals = models.IntegerField()
-    shippingprofile = models.OneToOneField(
-        ShippingProfile, related_name='shipping_profile', on_delete=models.SET_NULL, null=True)
-    paidAt = models.DateTimeField(auto_now=True)
-    isPaid = models.BooleanField(default=False)
-    deliveredAt = models.DateTimeField(auto_now=True)
-    idDelivered = models.BooleanField(default=False)
+    def __str__(self):
+        return f"{self.name}"

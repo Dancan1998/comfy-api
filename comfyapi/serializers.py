@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Image, ShippingProfile
+from .models import Product, Image, ShippingProfile, Order, OrderItem
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -43,3 +43,33 @@ class ShippingProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return ShippingProfile.objects.create(**validated_data)
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+        read_only_fields = ['order']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    owner = serializers.SerializerMethodField()
+    order = OrderItemSerializer(many=True)
+    # shippingprofile = ShippingProfileSerializer()
+
+    class Meta:
+        model = Order
+        fields = '__all__'
+        read_only_fields = ['owner', 'order',  'shippingprofile']
+
+    def get_owner(self, obj):
+        request = self.context.get('request', None)
+        if request:
+            return f"{request.user.first_name} {request.user.last_name}"
+
+    def create(self, validated_data):
+        orders_data = validated_data.pop('order')
+        order = Order.objects.create(**validated_data)
+        for order_data in orders_data:
+            OrderItem.objects.create(order=order, **order_data)
+        return order
