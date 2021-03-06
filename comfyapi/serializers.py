@@ -18,11 +18,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ShippingProfileSerializer(serializers.ModelSerializer):
+    owner = serializers.SerializerMethodField()
 
     class Meta:
         model = ShippingProfile
         fields = '__all__'
         read_only_fields = ['owner']
+
+    def get_owner(self, obj):
+        request = self.context.get('request', None)
+        if request:
+            return f"{request.user.first_name} {request.user.last_name}"
 
     def validate(self, attrs):
         county = attrs.get('county', '')
